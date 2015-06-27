@@ -1,13 +1,10 @@
 Package: climateExtract
-Title: What the Package Does (one line, title case)
+Title: Extract climate data from a NETCDF file
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph)
+Authors@R: person("Reto", "Schmucki", email = "reto.schmucki@mail.mcgill.ca", role = c("aut", "cre"))
+Description: This package is a bundle of function that should facilitate the extraction of climate data from a NETCDF object
+available from the European Climate Assessement & Datasets (ECAD; http://www.ecad.eu/download/ensembles/download.php#datafiles)
 Depends: R (>= 3.2.0)
-License: What license is it under?
+License: GNU GENERAL PUBLIC LICENSE (Version 2)
 LazyData: true
-Imports: ncdf4,
-    chron,
-    zoo,
-    FNN,
-    tcltk
+Imports: ncdf4, chron, zoo, FNN, tcltk
