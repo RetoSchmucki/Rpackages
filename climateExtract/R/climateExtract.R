@@ -10,7 +10,7 @@
 
 #  FUNCTIONS
 
-extrat_nc_value <- function(first.year=NULL,last.year=NULL) {
+extract_nc_value <- function(first.year=NULL,last.year=NULL) {
   
   tw.ncdf <- ncdf4::nc_open(file.choose())
   lon <- ncdf4::ncvar_get(tw.ncdf,"longitude")
