@@ -11,7 +11,7 @@
 #  FUNCTIONS
 
 extract_nc_value <- function(first.year=NULL,last.year=NULL) {
-  
+  print("select your climate file [.nc]")
   tw.ncdf <- ncdf4::nc_open(file.choose())
   lon <- ncdf4::ncvar_get(tw.ncdf,"longitude")
   lat <- ncdf4::ncvar_get(tw.ncdf,"latitude")
