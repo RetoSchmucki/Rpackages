@@ -22,7 +22,7 @@ extract_nc_value <- function(first.year=NULL,last.year=NULL) {
   
   # set day since in the data
   day_since <- ncdf4::ncatt_get( tw.ncdf,"time")$units
-  timeserie_length <- length(ncvar_get(tw.ncdf,"time"))
+  timeserie_length <- length(ncdf4::ncvar_get(tw.ncdf,"time"))
   fillvalue <- ncdf4::ncatt_get(tw.ncdf, nc_var, "_FillValue")
   day_vals <- ncdf4::ncvar_get(tw.ncdf,"time")
   
