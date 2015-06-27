@@ -15,7 +15,7 @@ install_github("RetoSchmucki/Rpackages/climateExtract")
 1. Get your climate data from the official website http://www.ecad.eu/download/ensembles/download.php#datafiles and
 decompress the data to extract the ".nc" file.
 
-Note: Read carefully the description of the data to select the right grid size and variable (eg. 0.25 deg. regular grid, "TG" average temperature).
+Note: Read carefully the description of the data to select the right grid size and variable (eg. 0.25 deg. regular grid, "TG" average temperature). If you don't need the complete time serie, 1950-2014, smaller chuncks are also available http://www.ecad.eu/download/ensembles/downloadchunks.php
 
 2. Use the function extract_nc_value() to extract the climate values for a specific time period. This function will open an interactive window to select the .nc file from which you want to extract the data from. Specify the firs and the last years of the time period you are interested. 
 
