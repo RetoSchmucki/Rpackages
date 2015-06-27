@@ -104,9 +104,9 @@ temporal_mean <- function(data_nc, time_avg=c("annual","monthly","window"), win_
     
     roll.mean <- apply(data_nc$value_array[,,],c(1,2),zoo::rollmean,k=win_length,na.rm=T)
     roll.mean <- aperm(roll.mean, c(2,3,1))
-    
-    result <- c(result,value_array=roll.mean,date_extract=data_nc$date_extract[-c(1:(win_length-1))],longitude=data_nc$longitude,latitude=data_nc$latitude,variable_name=data_nc$variable_name)
-  }
+    roll.mean <- list(value_array=roll.mean,date_extract=data_nc$date_extract[-c(1:(win_length-1))],longitude=data_nc$longitude,latitude=data_nc$latitude,variable_name=data_nc$variable_name)
+    result <- c(result,roll.mean)
+    }
   
   return(result)
   
