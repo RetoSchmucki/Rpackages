@@ -1,30 +1,74 @@
 #' extract_nc_value
 #' 
 #' This function extract climate data from NETCDF file produced by the European Climate Assesment & Dataset for a specific time-period and available at http://www.ecad.eu/download/ensembles/download.php#datafiles 
-#'  @param firs.year a numeric value defining the first year of the time-period to extract
-#'  @param last.year a numeric value defining the last year of the time-period to extract
+#'  @param firs.year a numeric value defining the first year of the time-period to extract, 1950 if NULL, default=NULL
+#'  @param last.year a numeric value defining the last year of the time-period to extract, 2014 if NULL, default=NULL
+#'  @param local_file logical if the .nc data are available on your local disc, if FALSE the data will be downloaded, default=TRUE
+#'  @param clim_variable string defining the daily climate variable of interest; "mean temp","max temp","min temp","precipitation", default="mean temp"
+#'  @param grid_size numeric value in degree defining the resolution of the grid, 0.25 (ca. xx meters) or 0.50 (ca. xx meters), default=0.50 
 #'  @author Reto Schmucki
 #'  @details This function ask you to select the .nc file containing the data of interest. If first.year and last.year are not provided, the function extract the full data set
-#  @example 
-#  temp.2000_2005 <- extract_nc_value(2000,2005)
+#'  @example 
+#'  temp.2000_2005 <- extract_nc_value(2000,2005,local_file=F)
 
 #  FUNCTIONS
 
-extract_nc_value <- function(first.year=NULL,last.year=NULL) {
+extract_nc_value <- function(first.year=NULL, last.year=NULL, local_file=TRUE, clim_variable="mean temp", grid_size=0.50) {
+  
+  if (local_file == TRUE) {
+ 
   print("select your climate file [.nc]")
-  tw.ncdf <- ncdf4::nc_open(file.choose())
-  lon <- ncdf4::ncvar_get(tw.ncdf,"longitude")
-  lat <- ncdf4::ncvar_get(tw.ncdf,"latitude")
+  nc.ncdf <- ncdf4::nc_open(file.choose())
+  
+  } else {
+  
+  cat(paste0("Let's try to get the ",clim_variable," from ",first.year," at ",grid_size," degree resolution \n"))
+  
+    if (clim_variable == "mean temp") {clim_var <- "tg"}
+    if (clim_variable == "min temp") {clim_var <- "tn"}
+    if (clim_variable == "max temp") {clim_var <- "tx"}
+    if (clim_variable == "precipitation") {clim_var <- "rr"}
+
+    if (grid_size == 0.25) {grid_size <- "0.25deg"}
+    if (grid_size == 0.50) {grid_size <- "0.50deg"}
+
+    if (first.year >= 1995) {year_toget <- "1995-2014_"}
+
+    if (year_toget == "1995-2014_") {
+        urltoget <-paste0("http://www.ecad.eu/download/ensembles/data/Grid_",grid_size,"_reg/",clim_var,"_",grid_size,"_reg_",year_toget,"v11.0.nc.gz")
+    } else {
+        urltoget <-paste0("http://www.ecad.eu/download/ensembles/data/Grid_",grid_size,"_reg/",clim_var,"_",grid_size,"_reg_v11.0.nc.gz")
+    }
+
+    dest_file <- paste0(clim_var,"_",grid_size,".nc.gz")
+    
+    x <- "N"
+    
+    if(file.exists(paste0(clim_var,"_",grid_size,".nc"))){
+        x <- readline("The requested climate data already exist, do you want to download them again? (Y/N) \n")
+    	}
+    
+    if(!file.exists(paste0(clim_var,"_",grid_size,".nc")) | x %in% c('Y','y','yes')){
+       download.file(urltoget,dest_file)
+       system(paste0("gunzip ",dest_file))}
+    
+    cat(paste0("your data (.nc file) is located in ",getwd(),"/",clim_var,"_",grid_size,".nc \n")) 
+       
+    nc.ncdf <- ncdf4::nc_open(paste0(clim_var,"_",grid_size,".nc"))
+    }
+    
+  lon <- ncdf4::ncvar_get(nc.ncdf,"longitude")
+  lat <- ncdf4::ncvar_get(nc.ncdf,"latitude")
   nlon <- dim(lon)
   nlat <- dim(lat)
-  nc_var <- names(tw.ncdf$var)
-  nc_varname <- ncdf4::ncatt_get(tw.ncdf, nc_var,"long_name")$value
+  nc_var <- names(nc.ncdf$var)
+  nc_varname <- ncdf4::ncatt_get(nc.ncdf, nc_var,"long_name")$value
   
   # set day since in the data
-  day_since <- ncdf4::ncatt_get( tw.ncdf,"time")$units
-  timeserie_length <- length(ncdf4::ncvar_get(tw.ncdf,"time"))
-  fillvalue <- ncdf4::ncatt_get(tw.ncdf, nc_var, "_FillValue")
-  day_vals <- ncdf4::ncvar_get(tw.ncdf,"time")
+  day_since <- ncdf4::ncatt_get(nc.ncdf,"time")$units
+  timeserie_length <- length(ncdf4::ncvar_get(nc.ncdf,"time"))
+  fillvalue <- ncdf4::ncatt_get(nc.ncdf, nc_var, "_FillValue")
+  day_vals <- ncdf4::ncvar_get(nc.ncdf,"time")
   
   init_year <- as.numeric(strsplit(unlist(strsplit(gsub('days since ','',day_since),'-',fixed=TRUE)),' ',fixed=TRUE)[[1]][1])
   init_month <- as.numeric(strsplit(unlist(strsplit(gsub('days since ','',day_since),'-',fixed=TRUE)),' ',fixed=TRUE)[[2]][1])
@@ -44,7 +88,7 @@ extract_nc_value <- function(first.year=NULL,last.year=NULL) {
   date_extract <- avg_temp_transect[avg_temp_transect$julianday >= firstday & avg_temp_transect$julianday <= lastday,]
   date_extract <- as.Date(paste(date_extract$day,date_extract$month,date_extract$year,sep="/"), "%d/%m/%Y")
   
-  tmp.array <- ncdf4::ncvar_get(tw.ncdf,nc_var,start=c(1,1,which(day_vals==firstday)),count=c(nlon,nlat,(lastday-firstday)+1))
+  tmp.array <- ncdf4::ncvar_get(nc.ncdf,nc_var,start=c(1,1,which(day_vals==firstday)),count=c(nlon,nlat,(lastday-firstday)+1))
   tmp.array[tmp.array == fillvalue$value] <- NA
   
   result <- list(variable_name=nc_varname,value_array=tmp.array,longitude=lon,latitude=lat,date_extract=date_extract)
