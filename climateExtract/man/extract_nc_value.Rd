@@ -22,7 +22,7 @@ extract_nc_value(first.year = NULL, last.year = NULL, local_file = TRUE,
 This function extract climate data from NETCDF file produced by the European Climate Assesment & Dataset for a specific time-period and available at http://www.ecad.eu/download/ensembles/download.php#datafiles
 }
 \details{
-This function ask you to select the .nc file containing the data of interest. If first.year and last.year are not provided, the function extract the full data set
+This function ask you to select the .nc file containing the data of interest on your local disc, if local_file is FALSE, data will be downloaded from the ECAD. If first.year and last.year are not provided, the function extract the full data set
 }
 \author{
 Reto Schmucki

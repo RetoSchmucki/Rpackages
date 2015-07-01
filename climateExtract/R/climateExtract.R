@@ -7,7 +7,7 @@
 #'  @param clim_variable string defining the daily climate variable of interest; "mean temp","max temp","min temp","precipitation", default="mean temp"
 #'  @param grid_size numeric value in degree defining the resolution of the grid, 0.25 (ca. xx meters) or 0.50 (ca. xx meters), default=0.50 
 #'  @author Reto Schmucki
-#'  @details This function ask you to select the .nc file containing the data of interest. If first.year and last.year are not provided, the function extract the full data set
+#'  @details This function ask you to select the .nc file containing the data of interest on your local disc, if local_file is FALSE, data will be downloaded from the ECAD. If first.year and last.year are not provided, the function extract the full data set
 #  @example 
 #  temp.2000_2005 <- extract_nc_value(2000,2005,local_file=F)
 
