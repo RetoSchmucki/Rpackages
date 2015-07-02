@@ -156,6 +156,65 @@ temporal_mean <- function(data_nc, time_avg=c("annual","monthly","window"), win_
   
 }
 
+#' temporal_sum
+#' 
+#' This function compute sum of climatic value for specific periods "annual", "monthly", or using a sliding window "window" of specific length, from and object obtained from the extrat_nc_value() function
+#'  @param data_nc object obtained from the extrat_nc_value() function corresponding to the time-period of interest
+#'  @param time_sum character string defining the level of summation, "annual", "monthly", "window"
+#'  @param win_length the number of days defining the span of the sliding window, default set to 30 days
+#'  @author Reto Schmucki
+#'  @details This function can be relatively slow if you compute sliding window total over a long period
+#  @example 
+#  a <- extract_nc_value(2000,2005)
+#  ann_mean <- temporal_mean(a,"annual")
+
+#  FUNCTIONS
+
+temporal_sum <- function(data_nc, time_sum=c("annual","monthly","window"), win_length=30) {
+  
+  result <- list(longitude=data_nc$longitude,latitude=data_nc$latitude)
+  
+  first.year <- min(unique(as.numeric(format(data_nc$date_extract, "%Y"))))
+  last.year <- max(unique(as.numeric(format(data_nc$date_extract, "%Y"))))
+  
+  if ("annual" %in% time_sum){
+    
+    annual.sum <- array(NA,c(length(data_nc$longitude),length(data_nc$latitude),(last.year-first.year)+1))
+    year_list <- c()
+    for( y in unique(as.numeric(format(data_nc$date_extract, "%Y")))) {
+      annual.sum[,,y-(first.year-1)] <- apply(data_nc$value_array[,,as.numeric(format(data_nc$date_extract, "%Y"))==y],c(1,2),sum,na.rm=T)
+      year_list <- c(year_list,y)
+    }
+    annual.sum <- list(value_array=annual.sum,date_extract=year_list,longitude=data_nc$longitude,latitude=data_nc$latitude,variable_name=data_nc$variable_name)
+    result <- c(result,annual.sum)
+  }
+  
+  if ("monthly" %in% time_sum) {
+    
+    year_month <- unique(as.numeric(format(data_nc$date_extract, "%Y%m")))
+    monthly.sum <- array(NA,c(length(data_nc$longitude),length(data_nc$latitude),length(year_month)))
+    
+    for (ym in year_month) {
+      monthly.sum[,,which(year_month==ym)] <- apply(data_nc$value_array[,,as.numeric(format(data_nc$date_extract, "%Y%m"))==ym],c(1,2),sum,na.rm=T)
+    }
+    monthly.sum <- list(value_array=monthly.sum,date_extract=year_month,year_month=data.frame(year=substr(year_month,1,4),month=substr(year_month,5,6))
+                         ,longitude=data_nc$longitude,latitude=data_nc$latitude,variable_name=data_nc$variable_name)
+    result <- c(result,monthly.sum)
+  }
+  
+  
+  if ("window" %in% time_sum) {
+    
+    roll.sum <- apply(data_nc$value_array[,,],c(1,2),zoo::rollsum,k=win_length,na.rm=T)
+    roll.sum <- aperm(roll.sum, c(2,3,1))
+    roll.sum <- list(value_array=roll.sum,date_extract=data_nc$date_extract[-c(1:(win_length-1))],longitude=data_nc$longitude,latitude=data_nc$latitude,variable_name=data_nc$variable_name)
+    result <- c(result,roll.mean)
+  }
+  
+  return(result)
+  
+}
+
 #' get_thepoint Function
 #' 
 #' Function to retrieve values corresponding to geographic points get_thepoint(data_nc$value_array,nc_index[p,])
@@ -224,8 +283,9 @@ point_grid_extract <- function(data_nc,point_coord) {
     result <- rbind(result,result1)
   }
   
-  names(result) <- data_nc$date_extract
-  result$site_id <- nc_index$site_id
+  result <- t(result)
+  names(result) <- data_nc$site_id
+  result$site_id <- data_nc$date_extract
   result <- result[,c(dim(result)[2],c(1:(dim(result)[2]-1)))]
   
   close(pb)
