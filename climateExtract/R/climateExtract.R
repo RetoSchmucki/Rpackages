@@ -182,7 +182,7 @@ temporal_sum <- function(data_nc, time_sum=c("annual","monthly","window"), win_l
     annual.sum <- array(NA,c(length(data_nc$longitude),length(data_nc$latitude),(last.year-first.year)+1))
     year_list <- c()
     for( y in unique(as.numeric(format(data_nc$date_extract, "%Y")))) {
-      annual.sum[,,y-(first.year-1)] <- apply(data_nc$value_array[,,as.numeric(format(data_nc$date_extract, "%Y"))==y],c(1,2),sum,na.rm=T)
+      annual.sum[,,y-(first.year-1)] <- apply(data_nc$value_array[,,as.numeric(format(data_nc$date_extract, "%Y"))==y],c(1,2),sum,na.rm=F)
       year_list <- c(year_list,y)
     }
     annual.sum <- list(value_array=annual.sum,date_extract=year_list,longitude=data_nc$longitude,latitude=data_nc$latitude,variable_name=data_nc$variable_name)
@@ -195,7 +195,7 @@ temporal_sum <- function(data_nc, time_sum=c("annual","monthly","window"), win_l
     monthly.sum <- array(NA,c(length(data_nc$longitude),length(data_nc$latitude),length(year_month)))
     
     for (ym in year_month) {
-      monthly.sum[,,which(year_month==ym)] <- apply(data_nc$value_array[,,as.numeric(format(data_nc$date_extract, "%Y%m"))==ym],c(1,2),sum,na.rm=T)
+      monthly.sum[,,which(year_month==ym)] <- apply(data_nc$value_array[,,as.numeric(format(data_nc$date_extract, "%Y%m"))==ym],c(1,2),sum,na.rm=F)
     }
     monthly.sum <- list(value_array=monthly.sum,date_extract=year_month,year_month=data.frame(year=substr(year_month,1,4),month=substr(year_month,5,6))
                          ,longitude=data_nc$longitude,latitude=data_nc$latitude,variable_name=data_nc$variable_name)
@@ -205,7 +205,7 @@ temporal_sum <- function(data_nc, time_sum=c("annual","monthly","window"), win_l
   
   if ("window" %in% time_sum) {
     
-    roll.sum <- apply(data_nc$value_array[,,],c(1,2),zoo::rollsum,k=win_length,na.rm=T)
+    roll.sum <- apply(data_nc$value_array[,,],c(1,2),zoo::rollsum,k=win_length,na.rm=F)
     roll.sum <- aperm(roll.sum, c(2,3,1))
     roll.sum <- list(value_array=roll.sum,date_extract=data_nc$date_extract[-c(1:(win_length-1))],longitude=data_nc$longitude,latitude=data_nc$latitude,variable_name=data_nc$variable_name)
     result <- c(result,roll.mean)
@@ -251,7 +251,7 @@ point_grid_extract <- function(data_nc,point_coord) {
   tmp.vec <- as.vector(data_nc$value_array[,,dim(data_nc$value_array)[3]])
   tmp.df01 <- data.frame(cbind(lonlat,tmp.vec))
   names(tmp.df01) <- c("lon","lat",data_nc$variable_name)
-  tmp.df_noNA <- tmp.df01[!is.na(tmp.df01[,3]),]
+  tmp.df_noNA <- tmp.df01[!is.na(tmp.df01[,3]) ,]
   
   # get index of closest point in the climate grid
   nc_index<-data.frame(site_id=NA,gr.longitude=NA,gr.latitude=NA,x_index=NA,y_index=NA,pt.x_coord=NA,pt.y_coord=NA)
