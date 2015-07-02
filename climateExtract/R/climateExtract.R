@@ -283,8 +283,8 @@ point_grid_extract <- function(data_nc,point_coord) {
     result <- rbind(result,result1)
   }
   
-  result <- t(result)
-  names(result) <- data_nc$site_id
+  result <- as.data.frame(t(result))
+  names(result) <- nc_index$site_id
   result$site_id <- data_nc$date_extract
   result <- result[,c(dim(result)[2],c(1:(dim(result)[2]-1)))]
   
