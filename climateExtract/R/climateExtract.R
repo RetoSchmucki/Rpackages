@@ -11,7 +11,7 @@
 #  @example 
 #  temp.2000_2005 <- extract_nc_value(2000,2005,local_file=F)
 
-#  FUNCTIONS
+#  FUNCTIONS commit test
 
 extract_nc_value <- function(first.year=NULL, last.year=NULL, local_file=TRUE, clim_variable="mean temp", grid_size=0.50) {
   
