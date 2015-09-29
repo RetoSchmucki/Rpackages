@@ -12,6 +12,8 @@ library(devtools)
 
 install_github("RetoSchmucki/Rpackages/climateExtract")
 
+Warning, this package depends on the ncdf4 package that can be installed by following the instruction here: http://cirrus.ucsd.edu/~pierce/ncdf/
+
 # Example
 
 1. Get your climate data from the official website http://www.ecad.eu/download/ensembles/download.php#datafiles and
