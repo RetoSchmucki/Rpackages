@@ -5,7 +5,7 @@ ECAD at http://www.ecad.eu/download/ensembles/download.php#datafiles
 
 If you did not already download the data, you can download the data directly with the function extract_nc_value().
 
-# Installation
+## Installation
 You will need to install the package "devtools" [install.packages("devtools")] and then use the function install_github()
 ```
 library(devtools)
@@ -14,7 +14,7 @@ install_github("RetoSchmucki/Rpackages/climateExtract")
 
 **Warning** This package depends on the `ncdf4` package. For Linux or MacOS users, the `ncdf4` can be installed from CRAN, but for **Windows users**, you should refere to the instructions availabe at http://cirrus.ucsd.edu/~pierce/ncdf/ and istall it manualy from the appriate `.zip` file.
 
-# Example
+## Example
 
 **Before extracting any data, please read carefully the description of the datasets and the different grid size available (eg. 0.25 deg. regular grid, "TG" average temperature).** 
 **Note** that shorter time-series are also available `http://www.ecad.eu/download/ensembles/downloadchunks.php`
@@ -32,15 +32,15 @@ climate_data <- extract_nc_value(2010,2014)
 ```
 climate_data <- extract_nc_value(2010,2014,local_file=FALSE,clim_variable='precipitation',grid_size=0.25)
 ```
-2.1. where clim_variable set to:
+*where clim_variable set to:*
 * "mean temp" extract the daily mean temperature
 * "mim temp" extract the daily minimum temperature
 * "max temp extract the daily maximum temperature
 * "precipitation" extract the daily precipitation
 
-2.2. where grid_size set to:
+*where grid_size set to:*
 * 0.25 extract a grid with a 0.25 degree resolution
- *0.50 extract a grid with a 0.50 degree resolution
+* 0.50 extract a grid with a 0.50 degree resolution
 
 3. To compute summary value of the daily values, use the function `temporal_mean()` for temperature or `temporal_sum()` for precipitation . This function computes the mean for a specified time period, monthly or annual or for specified window computing a roalling average over a specific number of days. **NOTE**This function use the data extracted with the function `extract_nc_value`.
 
