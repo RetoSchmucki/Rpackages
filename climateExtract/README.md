@@ -5,7 +5,7 @@ ECAD at [http://www.ecad.eu/download/ensembles/download.php#datafiles](http://ww
 
 If you did not already download the data, you can download the data directly with the function extract_nc_value().
 
-## Installation
+#### Installation
 You will need the package `devtools` and then use the function install_github()
 ```
 install.packages("devtools")
