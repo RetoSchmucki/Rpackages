@@ -48,13 +48,13 @@ climate_data <- extract_nc_value(2010,2014,local_file=FALSE,clim_variable='preci
 * 0.25 extract a grid with a 0.25-degree resolution
 * 0.50 extract a grid with a 0.50-degree resolution
 
-**3.** To compute summary value of the daily values, use the function `temporal_mean()` for temperature or `temporal_sum()` for precipitation . This function computes the mean for a specified time period, monthly or annual or for specified window computing a rolling average over a specific number of days. **NOTE**This function use the data extracted with the function `extract_nc_value`.
+**3.** To compute summary value of the daily values, use the function `temporal_mean()` for temperature or `temporal_sum()` for precipitation . This function computes the mean for a specified time period, monthly or annual or for specified window computing a rolling average over a specific number of days. **NOTE** This function use the data extracted with the function `extract_nc_value`.
 
 ```
 annual_mean <- temporal_mean(climate_data,"annual")
 monthly_sum <- temporal_sum(climate_data,"monthly")
 ```
-**4.** To extract the weather data for a set of specific locations (points), use the function `point_grid_extract()`. With this function, you can extracts either the original or the summary values corresponding to the points, depending on the data object provided in the first argument. The second argument is a `data.frame` with the coordinates of the points in a degree decimal format and using the **epsg projection 4326 - wgs 84** 
+**4.** To extract the weather data for a set of specific locations (points), use the function `point_grid_extract()`. With this function, you can extracts either the original or the summary values corresponding to the points, depending on the data object provided in the first argument. The second argument is a `data.frame` with the coordinates of the points in a degree decimal format and using the epsg projection 4326 - **wgs 84** 
 
 ```
 point_coord <- data.frame(site_id=c("site1","site2","site3","site4","site5"), longitude=c(28.620000,6.401499,4.359062,-3.579906,-2.590392), latitude=c(61.29000,52.73953,52.06530,50.43031,52.02951)) 
