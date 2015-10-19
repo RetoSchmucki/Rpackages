@@ -3,7 +3,7 @@
 R functions to extract climate data from local NETCDF file that you can download from the
 ECAD at [http://www.ecad.eu/download/ensembles/download.php#datafiles](http://www.ecad.eu/download/ensembles/download.php#datafiles)
 
-If you did not already download the data, you can download the data directly with the function extract_nc_value().
+If you have not already downloaded the data, you can download the data directly with the function extract_nc_value().
 
 #### Installation
 You will need the package `devtools` and then use the function install_github()
