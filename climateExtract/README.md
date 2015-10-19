@@ -15,7 +15,7 @@ install_github("RetoSchmucki/Rpackages/climateExtract")
 
 This package depends on the `ncdf4` package. For Linux or MacOS users, the `ncdf4` can be installed directly from CRAN.
 
-For **Windows** users, you should refer to the instructions available at http://cirrus.ucsd.edu/~pierce/ncdf/ and install the `ncdf4` package manually from the appropriate `.zip` file.
+**Windows** users, you should refer to the instructions available at http://cirrus.ucsd.edu/~pierce/ncdf/ and install the `ncdf4` package manually from the appropriate `.zip` file.
 
 **Before extracting any data, please read carefully the description of the datasets and the different grid size available (eg. 0.25 deg. regular grid, "TG" average temperature).** 
 **Note** that shorter time-series are also available [http://www.ecad.eu/download/ensembles/downloadchunks.php](http://www.ecad.eu/download/ensembles/downloadchunks.php)
