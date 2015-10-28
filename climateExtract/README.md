@@ -64,3 +64,8 @@ point.month_sum <- point_grid_extract(monthly_sum,point_coord)
 ```
 
 *This is a work in progress that is good for some tasks, but this comes with no guarantee. Suggestions and contributions for improvement are welcome.*
+
+#### TO DO
+* implement data.table approach to compute summary statistics to speed up computation
+* update and improve documentation 
+
