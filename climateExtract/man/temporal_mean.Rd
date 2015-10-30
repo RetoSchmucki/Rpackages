@@ -15,7 +15,7 @@ temporal_mean(data_nc, time_avg = c("annual", "monthly", "window"),
 \item{win_length}{the number of days defining the span of the sliding window, default set to 30 days}
 }
 \description{
-This function compute mean climatic value for specific periods "annual", "monthly", or using a sliding window "window" of specific length, from and object obtained from the extrat_nc_value() function
+This function compute mean climatic value for specific periods "annual", "monthly", or using a sliding "window" of specific length, from an object obtained from the extrat_nc_value() function
 }
 \details{
 This function can be relatively slow if you compute sliding window average over a long period
