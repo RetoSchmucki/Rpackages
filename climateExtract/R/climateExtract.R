@@ -49,7 +49,7 @@ extract_nc_value <- function(first.year=NULL, last.year=NULL, local_file=TRUE, c
 
     if(!file.exists(paste0(clim_var,"_",grid_size,".nc")) | x %in% c('Y','y','yes')){
        download.file(urltoget,dest_file)
-       system(paste0("gunzip ",dest_file))}
+       system(paste0("gzip -d ",dest_file))}
 
     cat(paste0("your data (.nc file) is located in ",getwd(),"/",clim_var,"_",grid_size,".nc \n"))
 
