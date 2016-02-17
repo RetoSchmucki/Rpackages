@@ -67,7 +67,7 @@ point.ann_mean <- point_grid_extract(annual_mean,point_coord)
 point.month_sum <- point_grid_extract(monthly_sum,point_coord)
 ```
 
-**5.**
+**5.** To extract long series one small chunk at the time (A quick and dirty workaround memory limit under Windows).
 ```
 # This is a workaround in case where you face memory issues under Windows while extracting a long serie on a computer 
 # with limited RAM.
@@ -107,10 +107,41 @@ plot(point.ann_mean$year,point.ann_mean$mean_temp, type='l')
 abline(h=mean(point.ann_mean$mean_temp),col='red')
 ```
 
+**6.** You would like to get a raster of the mean temperature across Europe in 1988.
+```
+# get a raster
+
+library(climateExtract)
+library(raster)
+climate_data <- extract_nc_value(1988,1988,local_file=FALSE,clim_variable='mean temp',grid_size=0.25)
+
+# compute the annual mean temperature
+annual_mean <- temporal_mean(climate_data,"annual")
+ 
+# get a XY data.frame for the 0.25deg grid
+grid.e <- expand.grid(annual_mean$longitude,annual_mean$latitude)
+ 
+# extract the value for 1988 in one vector 
+y1988 <- as.vector(annual_mean$value_array[,,1])
+
+# build a XYZ object
+xyz_value <- cbind(grid.e,y1988)
+ 
+# build a raster from the XYZ object with the library raster
+r <- rasterFromXYZ(xyz_value, crs=CRS("+init=epsg:4326"))
+names(r) <- annual_mean$date_extract[1]
+
+# voila!
+plot(r, main("Mean temperature in 1988")
+
+# you could use the stack() function to build a raster stack (multiple bands) with multiple years, months or days  
+ 
+```
 
 *This is a work in progress that is good for some tasks, but this comes with no guarantee. Suggestions and contributions for improvement are welcome.*
 
 #### TO DO
+* optimize the script to avoid (limit) memory issues under Windows
 * implement data.table approach to compute summary statistics to speed up computation
 * update and improve documentation 
 
