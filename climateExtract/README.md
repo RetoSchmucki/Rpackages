@@ -17,6 +17,9 @@ This package depends on the `ncdf4` package. For Linux or MacOS users, the `ncdf
 
 **Windows** users, you should refer to the instructions available at http://cirrus.ucsd.edu/~pierce/ncdf/ and install the `ncdf4` package manually from the appropriate `.zip` file.
 
+**Special note for Windows user** To work properly under windows, you will need to install a tool to unzip the file from your command prompt. So to make it easy, you should install Rtools that can be found [here] (https://cran.r-project.org/bin/windows/Rtools/index.html). The Rtools installer should install it in "C:\Rtools\bin". This need to be added to your PATH environment variable (instruction here](http://www.computerhope.com/issues/ch000549.htm). After this is done, relaunch your R instance and try this system("gzip -h") with the hope that you get the help for the gzip function.
+
+
 **Before extracting any data, please read carefully the description of the datasets and the different grid size available (eg. 0.25 deg. regular grid, "TG" average temperature).** 
 **Note** that shorter time-series are also available [http://www.ecad.eu/download/ensembles/downloadchunks.php](http://www.ecad.eu/download/ensembles/downloadchunks.php)
 
@@ -32,6 +35,7 @@ Or you can use the function `extract_nc_value()` to download the data directly b
 
 **1.** To extract climate values for a specific time period, use the function `extract_nc_value()`. By default this function will open an interactive window asking you to select a local `.nc` file from which you want the data to extract from, in this case you just have to specify the firs and the last years of the time period you are interested. 
 ```
+library(climatExtract)
 climate_data <- extract_nc_value(2010,2014)
 ```
 **2.** If you don't have a local .nc file, you can ask the function to download the desired data directly from the web repository.
