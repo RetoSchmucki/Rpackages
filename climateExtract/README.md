@@ -17,7 +17,7 @@ This package depends on the `ncdf4` package. For Linux or MacOS users, the `ncdf
 
 **Windows** users, you should refer to the instructions available at http://cirrus.ucsd.edu/~pierce/ncdf/ and install the `ncdf4` package manually from the appropriate `.zip` file.
 
-**Special note for Windows user** To work properly under windows, you will need to install a tool to unzip the file from your command prompt. So to make it easy, you should install Rtools that can be found [here] (https://cran.r-project.org/bin/windows/Rtools/index.html). The Rtools installer should install it in "C:\Rtools\bin". This need to be added to your PATH environment variable (if you forgot how to do this, follow the [instruction here](http://www.computerhope.com/issues/ch000549.htm). After this is done, relaunch your R instance and try this system("gzip -h") with the hope that you get the help for the gzip function.
+**To work properly under windows**, you will need to install a tool to unzip the file from your command prompt. So to make it easy, you should install Rtools that can be found [here] (https://cran.r-project.org/bin/windows/Rtools/index.html). The Rtools installer should install it in "C:\Rtools\bin". This need to be added to your PATH environment variable (if you forgot how to do this, follow the [instruction here](http://www.computerhope.com/issues/ch000549.htm)). After this is done, relaunch your R instance and try this system("gzip -h") with the hope that you get the help for the gzip function.
 
 
 **Before extracting any data, please read carefully the description of the datasets and the different grid size available (eg. 0.25 deg. regular grid, "TG" average temperature).** 
