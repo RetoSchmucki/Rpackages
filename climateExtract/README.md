@@ -105,7 +105,7 @@ plot(point.ann_mean$year,point.ann_mean$mean_temp, type='l')
 abline(h=mean(point.ann_mean$mean_temp),col='red')
 ```
 
-**6.** You would like to get a raster of the mean temperature across Europe in 1988.
+**6.** If you want a raster of the mean temperature across Europe for a specific year (e.g. 1988).
 ```
 # get a raster
 
