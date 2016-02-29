@@ -67,7 +67,7 @@ point.month_sum <- point_grid_extract(monthly_sum,point_coord)
 
 **5.** To extract long series one small chunk at the time (A quick and dirty workaround memory limit under Windows).
 ```
-# This is a workaround in case where you face memory issues under Windows while extracting a long serie on a computer 
+# This is a workaround when facing memory issues under Windows while extracting a long serie on a computer 
 # with limited RAM.
 
 library(climateExtract)
