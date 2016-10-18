@@ -34,20 +34,20 @@ extract_nc_value <- function(first.year=NULL, last.year=NULL, local_file=TRUE, c
 
     if (first.year >= 1995) {
         year_toget <- "1995-2016_"
-        urltoget <-paste0("http://www.ecad.eu/download/ensembles/data/Grid_",grid_size,"deg_reg/",clim_var,"_",grid_size,"deg_reg_",year_toget,"v14.0.nc.gz")
+        urltoget <-paste0("http://www.ecad.eu/download/ensembles/data/Grid_",grid_size,"_reg/",clim_var,"_",grid_size,"_reg_",year_toget,"v14.0.nc.gz")
     } else {
-        urltoget <-paste0("http://www.ecad.eu/download/ensembles/data/Grid_",grid_size,"deg_reg/",clim_var,"_",grid_size,"deg_reg_v14.0.nc.gz")
+        urltoget <-paste0("http://www.ecad.eu/download/ensembles/data/Grid_",grid_size,"_reg/",clim_var,"_",grid_size,"_reg_v14.0.nc.gz")
     }
 
-   dest_file <- paste0(clim_var,"_",grid_size,"deg_reg_v14.0.nc.gz")
+   dest_file <- paste0(clim_var,"_",grid_size,"_reg_v14.0.nc.gz")
 
     x <- "N"
 
-    if(file.exists(paste0(clim_var,"_",grid_size,"deg_reg_v14.0.nc"))){
+    if(file.exists(paste0(clim_var,"_",grid_size,"_reg_v14.0.nc"))){
         x <- readline("The requested climate data already exist, do you want to download them again? (Y/N) \n")
     	}
 
-    if(!file.exists(paste0(clim_var,"_",grid_size,"deg_reg_v14.0.nc")) | x %in% c('Y','y','yes')){
+    if(!file.exists(paste0(clim_var,"_",grid_size,"_reg_v14.0.nc")) | x %in% c('Y','y','yes')){
        download.file(urltoget,dest_file)
        system(paste0("gzip -d ",dest_file))}
 
