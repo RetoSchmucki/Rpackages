@@ -33,7 +33,7 @@ Or you can use the function `extract_nc_value()` to download the data directly b
 
 **1.** To extract climate values for a specific time period, use the function `extract_nc_value()`. By default this function will open an interactive window asking you to select a local `.nc` file from which you want the data to extract from, in this case you just have to specify the firs and the last years of the time period you are interested. 
 ```
-library(climatExtract)
+library(climateExtract)
 climate_data <- extract_nc_value(2010,2014)
 ```
 **2.** If you don't have a local .nc file, you can ask the function to download the desired data directly from the web repository.
