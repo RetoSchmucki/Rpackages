@@ -207,7 +207,7 @@ temporal_sum <- function(data_nc, time_sum=c("annual","monthly","window"), win_l
     roll.sum <- apply(data_nc$value_array[,,],c(1,2),zoo::rollsum,k=win_length,na.rm=F)
     roll.sum <- aperm(roll.sum, c(2,3,1))
     roll.sum <- list(value_array=roll.sum,date_extract=data_nc$date_extract[-c(1:(win_length-1))],longitude=data_nc$longitude,latitude=data_nc$latitude,variable_name=data_nc$variable_name)
-    result <- c(result,roll.mean)
+    result <- c(result,roll.sum)
   }
 
   return(result)
@@ -284,7 +284,7 @@ point_grid_extract <- function(data_nc,point_coord) {
 
   result <- as.data.frame(t(result))
   names(result) <- nc_index$site_id
-  result$site_id <- data_nc$date_extract
+  result$date_extract <- data_nc$date_extract
   result <- result[,c(dim(result)[2],c(1:(dim(result)[2]-1)))]
 
   close(pb)
