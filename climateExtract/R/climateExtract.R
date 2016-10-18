@@ -51,9 +51,9 @@ extract_nc_value <- function(first.year=NULL, last.year=NULL, local_file=TRUE, c
        download.file(urltoget,dest_file)
        system(paste0("gzip -d ",dest_file))}
 
-    cat(paste0("your data (.nc file) is located in ",getwd(),"/",clim_var,"_",grid_size,".nc \n"))
+    cat(paste0("your data (.nc file) is located in ",getwd(),"/",clim_var,"_",grid_size,"_reg_v14.0.nc \n"))
 
-    nc.ncdf <- ncdf4::nc_open(paste0(clim_var,"_",grid_size,".nc"))
+    nc.ncdf <- ncdf4::nc_open(paste0(clim_var,"_",grid_size,"_reg_v14.0.nc"))
     }
 
   lon <- ncdf4::ncvar_get(nc.ncdf,"longitude")
