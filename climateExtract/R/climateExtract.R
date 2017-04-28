@@ -246,8 +246,12 @@ get_thepoint <- function(x,nc_index){
 
 point_grid_extract <- function(data_nc,point_coord) {
 
+  ## Get the layer with the widest spatial extent in the data
+  na.profile <- apply(data_nc$value_array,3,function(x) sum(!is.na(x)))
+  max_extent <- which(na.profile==max(na.profile))[1]
+
   lonlat <- expand.grid(data_nc$longitude,data_nc$latitude)
-  tmp.vec <- as.vector(data_nc$value_array[,,dim(data_nc$value_array)[3]])
+  tmp.vec <- as.vector(data_nc$value_array[,,max_extent])
   tmp.df01 <- data.frame(cbind(lonlat,tmp.vec))
   names(tmp.df01) <- c("lon","lat",data_nc$variable_name)
   tmp.df_noNA <- tmp.df01[!is.na(tmp.df01[,3]) ,]
