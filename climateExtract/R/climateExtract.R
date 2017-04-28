@@ -81,8 +81,14 @@ extract_nc_value <- function(first.year=NULL, last.year=NULL, local_file=TRUE, c
   if (is.null(first.year)){ first.year <- min(avg_temp_transect$year)}
   if (is.null(last.year)){ last.year <- max(avg_temp_transect$year)}
 
-  firstday <- avg_temp_transect$julianday[avg_temp_transect$day==1&avg_temp_transect$month==1&avg_temp_transect$year==first.year]
-  lastday <- avg_temp_transect$julianday[avg_temp_transect$day==31&avg_temp_transect$month==12&avg_temp_transect$year==last.year]
+  first.month <- head(avg_temp_transect$month[avg_temp_transect$year==first.year],1)
+  first.day <- head(avg_temp_transect$day[avg_temp_transect$year==first.year],1)
+  last.month <- tail(avg_temp_transect$month[avg_temp_transect$year==last.year],1)
+  last.day <- tail(avg_temp_transect$day[avg_temp_transect$year==last.year],1)
+
+  firstday <- avg_temp_transect$julianday[avg_temp_transect$day==first.day&avg_temp_transect$month==first.month&avg_temp_transect$year==first.year]
+  
+  lastday <- avg_temp_transect$julianday[avg_temp_transect$day==last.day&avg_temp_transect$month==last.month&avg_temp_transect$year==last.year]
 
   date_extract <- avg_temp_transect[avg_temp_transect$julianday >= firstday & avg_temp_transect$julianday <= lastday,]
   date_extract <- as.Date(paste(date_extract$day,date_extract$month,date_extract$year,sep="/"), "%d/%m/%Y")
