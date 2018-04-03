@@ -3,7 +3,7 @@
 R functions to extract climate data from local NETCDF file that you can download from the
 ECAD at [http://www.ecad.eu/download/ensembles/download.php#datafiles](http://www.ecad.eu/download/ensembles/download.php#datafiles)
 
-
+**NEWS:** Updated for - ECAD Version16.0 -
 
 #### Installation
 You will need the package `devtools` and then use the function install_github()
@@ -18,7 +18,7 @@ This package depends on the `ncdf4` package. For *Linux* or *MacOS* users, the `
 **Windows users** also need to install a tool to unzip the file from your command prompt. So to make it easy and cross-platform, I rely on Rtools that is available for download from [here] (https://cran.r-project.org/bin/windows/Rtools/index.html). The Rtools installer should install it in "C:\Rtools\bin". This need to be added to your PATH environment variable (if you forgot how to do this, follow the [instruction here](http://www.computerhope.com/issues/ch000549.htm)). Once you installed and set the PATH in your environment variable, relaunch your R instance and test it with this function system("gzip -h"). This should print the help documentation for the gzip function. Now with Rtools on board, you are ready to  go and extract some climate data! Well, almost... you might encounter some issues related to R's memory limit under Windows. This is partly my fault as I did not payed much attention to this while coding under UNIX systems (Linux or Mac). But slowly, I am working on this issue (among others) by revisiting and restructuring the source code. Anyways, there is a workaround the memory issue under Windows and this is by extracting smaller chunk of data at the time (see point no.5 below).
 
 
-**Before extracting any data, please read carefully the description of the datasets and the different grid size available (eg. 0.25 deg. regular grid, "TG" average temperature).** 
+**Before extracting any data, please read carefully the description of the datasets and the different grid size available (eg. 0.25 deg. regular grid, "TG" average temperature).**
 **Note** that shorter time-series are also available [http://www.ecad.eu/download/ensembles/downloadchunks.php](http://www.ecad.eu/download/ensembles/downloadchunks.php)
 
 
@@ -31,7 +31,7 @@ Or you can use the function `extract_nc_value()` to download the data directly b
 
 
 
-**1.** To extract climate values for a specific time period, use the function `extract_nc_value()`. By default this function will open an interactive window asking you to select a local `.nc` file from which you want the data to extract from, in this case you just have to specify the firs and the last years of the time period you are interested. 
+**1.** To extract climate values for a specific time period, use the function `extract_nc_value()`. By default this function will open an interactive window asking you to select a local `.nc` file from which you want the data to extract from, in this case you just have to specify the firs and the last years of the time period you are interested.
 ```
 library(climateExtract)
 climate_data <- extract_nc_value(2010,2014)
@@ -56,10 +56,10 @@ climate_data <- extract_nc_value(2010,2014,local_file=FALSE,clim_variable='preci
 annual_mean <- temporal_mean(climate_data,"annual")
 monthly_sum <- temporal_sum(climate_data,"monthly")
 ```
-**4.** To extract the weather data for a set of specific locations (points), use the function `point_grid_extract()`. With this function, you can extracts either the original or the summary values corresponding to the points, depending on the data object provided in the first argument. The second argument is a `data.frame` with the coordinates of the points in a degree decimal format and using the epsg projection 4326 - **wgs 84** 
+**4.** To extract the weather data for a set of specific locations (points), use the function `point_grid_extract()`. With this function, you can extracts either the original or the summary values corresponding to the points, depending on the data object provided in the first argument. The second argument is a `data.frame` with the coordinates of the points in a degree decimal format and using the epsg projection 4326 - **wgs 84**
 
 ```
-point_coord <- data.frame(site_id=c("site1","site2","site3","site4","site5"), longitude=c(28.620000,6.401499,4.359062,-3.579906,-2.590392), latitude=c(61.29000,52.73953,52.06530,50.43031,52.02951)) 
+point_coord <- data.frame(site_id=c("site1","site2","site3","site4","site5"), longitude=c(28.620000,6.401499,4.359062,-3.579906,-2.590392), latitude=c(61.29000,52.73953,52.06530,50.43031,52.02951))
 
 point.ann_mean <- point_grid_extract(annual_mean,point_coord)
 point.month_sum <- point_grid_extract(monthly_sum,point_coord)
@@ -67,7 +67,7 @@ point.month_sum <- point_grid_extract(monthly_sum,point_coord)
 
 **5.** To extract long series one small chunk at the time (A quick and dirty workaround memory limit under Windows).
 ```
-# This is a workaround when facing memory issues under Windows while extracting a long serie on a computer 
+# This is a workaround when facing memory issues under Windows while extracting a long serie on a computer
 # with limited RAM.
 
 library(climateExtract)
@@ -115,16 +115,16 @@ climate_data <- extract_nc_value(1988,1988,local_file=FALSE,clim_variable='mean 
 
 # compute the annual mean temperature
 annual_mean <- temporal_mean(climate_data,"annual")
- 
+
 # get a XY data.frame for the 0.25deg grid
 grid.e <- expand.grid(annual_mean$longitude,annual_mean$latitude)
- 
-# extract the value for 1988 in one vector 
+
+# extract the value for 1988 in one vector
 y1988 <- as.vector(annual_mean$value_array[,,1])
 
 # build a XYZ object
 xyz_value <- cbind(grid.e,y1988)
- 
+
 # build a raster from the XYZ object with the library raster
 r <- rasterFromXYZ(xyz_value, crs=CRS("+init=epsg:4326"))
 names(r) <- annual_mean$date_extract[1]
@@ -132,8 +132,8 @@ names(r) <- annual_mean$date_extract[1]
 # voila!
 plot(r, main("Mean temperature in 1988")
 
-# you could use the stack() function to build a raster stack (multiple bands) with multiple years, months or days  
- 
+# you could use the stack() function to build a raster stack (multiple bands) with multiple years, months or days
+
 ```
 
 *This is a work in progress that is good for some tasks, but this comes with no guarantee. Suggestions and contributions for improvement are welcome.*
@@ -141,5 +141,4 @@ plot(r, main("Mean temperature in 1988")
 #### TO DO
 * optimize the script to avoid (limit) memory issues under Windows
 * implement data.table approach to compute summary statistics to speed up computation
-* update and improve documentation 
-
+* update and improve documentation

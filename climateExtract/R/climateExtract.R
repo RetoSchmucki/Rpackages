@@ -32,28 +32,28 @@ extract_nc_value <- function(first.year=NULL, last.year=NULL, local_file=TRUE, c
     if (grid_size == 0.25) {grid_size <- "0.25deg"}
     if (grid_size == 0.50) {grid_size <- "0.50deg"}
 
-    if (first.year >= 1995) {
-        year_toget <- "1995-2016_"
-        urltoget <-paste0("http://www.ecad.eu/download/ensembles/data/Grid_",grid_size,"_reg/",clim_var,"_",grid_size,"_reg_",year_toget,"v14.0.nc.gz")
+    if (first.year >= 2011) {
+        year_toget <- "2011-2017_"
+        urltoget <-paste0("http://www.ecad.eu/download/ensembles/data/Version16.0/Grid_",grid_size,"_reg/",clim_var,"_",grid_size,"_reg_",year_toget,"v16.0.nc.gz")
     } else {
-        urltoget <-paste0("http://www.ecad.eu/download/ensembles/data/Grid_",grid_size,"_reg/",clim_var,"_",grid_size,"_reg_v14.0.nc.gz")
+        urltoget <-paste0("http://www.ecad.eu/download/ensembles/data/Version16.0/Grid_",grid_size,"_reg/",clim_var,"_",grid_size,"_reg_v16.0.nc.gz")
     }
 
-   dest_file <- paste0(clim_var,"_",grid_size,"_reg_v14.0.nc.gz")
+   dest_file <- paste0(clim_var,"_",grid_size,"_reg_v16.0.nc.gz")
 
     x <- "N"
 
-    if(file.exists(paste0(clim_var,"_",grid_size,"_reg_v14.0.nc"))){
+    if(file.exists(paste0(clim_var,"_",grid_size,"_reg_v16.0.nc"))){
         x <- readline("The requested climate data already exist, do you want to download them again? (Y/N) \n")
     	}
 
-    if(!file.exists(paste0(clim_var,"_",grid_size,"_reg_v14.0.nc")) | x %in% c('Y','y','yes')){
+    if(!file.exists(paste0(clim_var,"_",grid_size,"_reg_v16.0.nc")) | x %in% c('Y','y','yes')){
        download.file(urltoget,dest_file)
        system(paste0("gzip -d ",dest_file))}
 
-    cat(paste0("your data (.nc file) is located in ",getwd(),"/",clim_var,"_",grid_size,"_reg_v14.0.nc \n"))
+    cat(paste0("your data (.nc file) is located in ",getwd(),"/",clim_var,"_",grid_size,"_reg_v16.0.nc \n"))
 
-    nc.ncdf <- ncdf4::nc_open(paste0(clim_var,"_",grid_size,"_reg_v14.0.nc"))
+    nc.ncdf <- ncdf4::nc_open(paste0(clim_var,"_",grid_size,"_reg_v16.0.nc"))
     }
 
   lon <- ncdf4::ncvar_get(nc.ncdf,"longitude")
@@ -87,7 +87,7 @@ extract_nc_value <- function(first.year=NULL, last.year=NULL, local_file=TRUE, c
   last.day <- tail(avg_temp_transect$day[avg_temp_transect$year==last.year],1)
 
   firstday <- avg_temp_transect$julianday[avg_temp_transect$day==first.day&avg_temp_transect$month==first.month&avg_temp_transect$year==first.year]
-  
+
   lastday <- avg_temp_transect$julianday[avg_temp_transect$day==last.day&avg_temp_transect$month==last.month&avg_temp_transect$year==last.year]
 
   date_extract <- avg_temp_transect[avg_temp_transect$julianday >= firstday & avg_temp_transect$julianday <= lastday,]
