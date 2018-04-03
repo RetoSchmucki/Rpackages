@@ -9,8 +9,7 @@ ECAD at [http://www.ecad.eu/download/ensembles/download.php#datafiles](http://ww
 You will need the package `devtools` and then use the function install_github()
 ```
 install.packages("devtools")
-library(devtools)
-install_github("RetoSchmucki/Rpackages/climateExtract")
+devtools::install_github("RetoSchmucki/Rpackages/climateExtract")
 ```
 
 This package depends on the `ncdf4` package. For *Linux* or *MacOS* users, the `ncdf4` can be installed directly from CRAN. *Windows* users should refer to the instructions available at http://cirrus.ucsd.edu/~pierce/ncdf/ and install the `ncdf4` package manually from the appropriate `.zip` file.
@@ -28,18 +27,17 @@ You can get your climate data from the web repository http://www.ecad.eu/downloa
 
 Or you can use the function `extract_nc_value()` to download the data directly by setting the parameter local_file to FALSE and adding the details of the data you want to be extracted.
 
-
-
-
 **1.** To extract climate values for a specific time period, use the function `extract_nc_value()`. By default this function will open an interactive window asking you to select a local `.nc` file from which you want the data to extract from, in this case you just have to specify the firs and the last years of the time period you are interested.
-```
+```R
 library(climateExtract)
-climate_data <- extract_nc_value(2010,2014)
+climate_data <- extract_nc_value(2012,2015)
 ```
 **2.** If you don't have a local .nc file, you can ask the function to download the desired data directly from the web repository.
+
+```R
+climate_data <- extract_nc_value(2012, 2015, local_file = FALSE, clim_variable = 'precipitation', grid_size = 0.25)
 ```
-climate_data <- extract_nc_value(2010,2014,local_file=FALSE,clim_variable='precipitation',grid_size=0.25)
-```
+
 *where clim_variable set to:*
 * "mean temp" extract the daily mean temperature
 * "mim temp" extract the daily minimum temperature
