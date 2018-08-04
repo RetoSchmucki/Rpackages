@@ -34,9 +34,9 @@ extract_nc_value <- function(first.year=NULL, last.year=NULL, local_file=TRUE, c
 
     if (first.year >= 2011) {
         year_toget <- "2011-2017_"
-        urltoget <-paste0("http://www.ecad.eu/download/ensembles/data/Version16.0/Grid_",grid_size,"_reg/",clim_var,"_",grid_size,"_reg_",year_toget,"v17.0.nc.gz")
+        urltoget <-paste0("http://www.ecad.eu/download/ensembles/data/Grid_",grid_size,"_reg/",clim_var,"_",grid_size,"_reg_",year_toget,"v17.0.nc.gz")
     } else {
-        urltoget <-paste0("http://www.ecad.eu/download/ensembles/data/Version16.0/Grid_",grid_size,"_reg/",clim_var,"_",grid_size,"_reg_v17.0.nc.gz")
+        urltoget <-paste0("http://www.ecad.eu/download/ensembles/data/Grid_",grid_size,"_reg/",clim_var,"_",grid_size,"_reg_v17.0.nc.gz")
     }
 
    dest_file <- paste0(clim_var,"_",grid_size,"_reg_v17.0.nc.gz")
